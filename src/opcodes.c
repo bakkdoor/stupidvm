@@ -30,7 +30,7 @@ OPCODE opcode(COMMAND c)
 /**
    Build up a command from opcode and two operands.
 */
-COMMAND build_cmd(OPCODE opcode, OPERAND op1, OPCODE op2)
+COMMAND command(OPCODE opcode, OPERAND op1, OPCODE op2)
 {
   COMMAND c;
 

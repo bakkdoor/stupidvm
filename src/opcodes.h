@@ -29,6 +29,51 @@ typedef enum {
   HALT = 0x14      /* halt/stop the machine */
 } OPCODE;
 
+
+#define POP(a) command(POP, (a), 0)
+
+#define PUSH(a) command(PUSH, (a), 0)
+
+#define ADD(a,b) command(ADD, (a), (b))
+
+#define SUB(a,b) command(SUB, (a), (b))
+
+#define MUL(a,b) command(MUL, (a), (b))
+
+#define DIV(a,b) command(DIV, (a), (b))
+
+#define ADDI(a,b) command(ADDI, (a), (b))
+
+#define SUBI(a,b) command(SUBI, (a), (b))
+
+#define MULI(a,b) command(MULI, (a), (b))
+
+#define DIVI(a,b) command(DIVI, (a), (b))
+
+#define LOAD(a,b) command(LOAD, (a), (b))
+
+#define LOADI(a,b) command(LOADI, (a), (b))
+
+#define MOV(a,b) command(MOV, (a), (b))
+
+#define JMP(a) command(JMP, (a), 0)
+
+#define JMPZ(a) command(JMPZ, (a), 0)
+
+#define COM(a) command(COM, (a), 0)
+
+#define NEG(a) command(NEG, (a), 0)
+
+#define CALL(a) command(CALL, (a), 0)
+
+#define RET() command(RET, 0, 0))
+
+#define PRINT(a) command(PRINT, (a), 0)
+
+#define HALT() command(HALT, 0, 0)
+
+
+
 /*
   command is 16 bit:
   6 bits for opcode (0x00 - 0xFF + 1 extra bit (not used yet)) (possibly up to 255 built-in operations)
@@ -48,6 +93,6 @@ OPERAND first_op(COMMAND c);
 OPERAND second_op(COMMAND c);
 OPCODE  opcode(COMMAND c);
 
-COMMAND build_cmd(OPCODE opcode, OPERAND op1, OPCODE op2);
+COMMAND command(OPCODE opcode, OPERAND op1, OPCODE op2);
 
 #endif
