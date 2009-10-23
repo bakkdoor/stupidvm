@@ -7,7 +7,7 @@
 
 typedef enum {
   POP = 0x00,      /* pop value from stack to register */
-  PUSH = 0x01,     /* push value from stack to register */
+  PUSH = 0x01,     /* push value from register to stack*/
   ADD = 0x02,      /* add two registers and store in first */
   MUL = 0x03,      /* multiply two registers and store in first */
   SUB = 0x04,      /* subtract two registers and store in first */

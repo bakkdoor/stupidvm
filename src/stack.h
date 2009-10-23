@@ -1,8 +1,6 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "opcodes.h"
-
 #define STACK_MAX_SIZE 512
 
 typedef struct
