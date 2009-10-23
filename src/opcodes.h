@@ -21,11 +21,12 @@ typedef enum {
   MOV = 0x0C,      /* move (copy) value from first to second register */
   JMP = 0x0D,      /* jump (branch) to adress (unconditional branch) */
   JMPZ = 0x0E,     /* jump (branch) to adress if last operation was zero (conditional branch) */
-  NEG = 0x0F,      /* negate value in register */
-  CALL = 0x10,     /* call a function */
-  RET = 0x11,      /* return from function */
-  PRINT = 0x12,    /* print content of register to stdout */
-  HALT = 0x13      /* halt/stop the machine */
+  COM = 0x0F,      /* (binary) complement value in register */
+  NEG = 0x10,      /* negate value in register */
+  CALL = 0x11,     /* call a function */
+  RET = 0x12,      /* return from function */
+  PRINT = 0x13,    /* print content of register to stdout */
+  HALT = 0x14      /* halt/stop the machine */
 } OPCODE;
 
 /*
