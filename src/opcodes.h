@@ -30,7 +30,7 @@ typedef enum {
 } OPCODE;
 
 /*
-  command is 32 bit:  
+  command is 16 bit:
   6 bits for opcode (0x00 - 0xFF + 1 extra bit (not used yet)) (possibly up to 255 built-in operations)
   5 bits for each operand (either adress of register or literal value)
  */
