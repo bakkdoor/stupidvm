@@ -23,7 +23,7 @@ OPERAND second_op(COMMAND c)
 */
 OPCODE opcode(COMMAND c)
 {
-  return (c >> (COMMAND_SIZE - OP_SIZE));
+  return (c >> (COMMAND_SIZE - OPC_SIZE));
 }
 
 
