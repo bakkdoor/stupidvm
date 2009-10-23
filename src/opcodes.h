@@ -29,7 +29,7 @@ typedef enum {
   EQ = 0x14,       /* set status = 1 if contents of registers equal */
   NEQ = 0x15,      /* opposite of EQ */
   CLR = 0x16,      /* clear register (set to zero) */
-  HALT = 0x99      /* halt/stop the machine */
+  HALT = 0x30      /* halt/stop the machine */
 } OPCODE;
 
 
