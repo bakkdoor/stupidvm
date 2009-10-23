@@ -27,7 +27,7 @@ COMMAND* example_programm(void)
   p[1] = build_cmd(LOADI, 5, 1);
   p[2] = build_cmd(MUL, 0, 1);
   p[3] = build_cmd(PUSH, 1, 0);
-  p[4] = build_cmd(LOADI, 100, 1);
+  p[4] = build_cmd(LOADI, 3, 1);
   p[5] = build_cmd(MUL, 0, 1);
   p[6] = build_cmd(POP, 1, 0);
   p[7] = build_cmd(PRINT, 0, 0);
@@ -54,7 +54,7 @@ void run(COMMAND* programm)
     
     switch(opc) {
     case POP:
-      pop(&stack);
+      regs[first_op(cmd)] = pop(&stack);
       break;
     case PUSH:
       source = first_op(cmd); /* register number */
