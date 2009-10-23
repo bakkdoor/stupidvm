@@ -24,7 +24,8 @@ typedef enum {
   NEG = 0x0F,      /* negate value in register */
   CALL = 0x10,     /* call a function */
   RET = 0x11,      /* return from function */
-  PRINT = 0x12     /* print content of register to stdout */
+  PRINT = 0x12,    /* print content of register to stdout */
+  HALT = 0x13      /* halt/stop the machine */
 } OPCODE;
 
 /*
