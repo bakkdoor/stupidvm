@@ -7,5 +7,7 @@
 
 #include "opcodes.h"
 #include "stack.h"
+#include "examples.h"
+
 
 #endif

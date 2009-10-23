@@ -15,28 +15,8 @@ REGISTER regs[16] = {0,0,0,0,
 */
 REGISTER status;
 
-/* 8-bit programm counter */
+/* 32-bit programm counter */
 int PC; 
-
-
-COMMAND* example_programm(void)
-{
-  COMMAND* p = malloc(10 * sizeof(COMMAND));
-
-  p[0] = build_cmd(LOADI, 10, 0);
-  p[1] = build_cmd(LOADI, 5, 1);
-  p[2] = build_cmd(MUL, 0, 1);
-  p[3] = build_cmd(PUSH, 1, 0);
-  p[4] = build_cmd(LOADI, 3, 1);
-  p[5] = build_cmd(MUL, 0, 1);
-  p[6] = build_cmd(POP, 1, 0);
-  p[7] = build_cmd(PRINT, 0, 0);
-  p[8] = build_cmd(PRINT, 1, 0);
-  p[9] = build_cmd(HALT, 0, 0);
-
-  return p;
-}
-
 
 void run(COMMAND* programm)
 {
@@ -140,6 +120,7 @@ void run(COMMAND* programm)
 
 int main(int argc, char *argv[])
 {
-  run(example_programm());
+  COMMAND p[] = example1();
+  run(p);
   return 0;
 }
