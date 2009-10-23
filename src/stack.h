@@ -5,12 +5,12 @@
 
 typedef struct
 {
-    OPERAND v[STACK_MAX_SIZE];
+    Operand v[STACK_MAX_SIZE];
     int top;
 } Stack;
 
-void push(Stack *S, OPERAND val);
-OPERAND pop(Stack *S);
+void push(Stack *S, Operand val);
+Operand pop(Stack *S);
 void init(Stack *S);
 
 #endif

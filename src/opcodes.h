@@ -5,6 +5,22 @@
 #define COMMAND_SIZE 16     /* number of bits for COMMANDS */
 #define OP_SIZE 5           /* number of bits for OPERANDS */
 
+/* 1st operand matches bit mask: 000000 11111 00000 (= 0x3E0) */
+#define FIRST_MSK 0x3E0
+
+/* 2nd operand matches bit mask: 000000 00000 11111 (= 0x1F) */
+#define SECOND_MSK 0x1F
+
+
+/************************
+   opcode & operand macro declarations
+*************************/
+
+#define first(c) ((c & FIRST_MSK) >> OP_SIZE)
+#define second(c) (c & SECOND_MSK)
+#define opcode(c) (c >> (COMMAND_SIZE - OPC_SIZE))
+
+
 typedef enum {
   POP = 0x00,      /* pop value from stack to register */
   PUSH = 0x01,     /* push value from register to stack*/
@@ -30,57 +46,33 @@ typedef enum {
   NEQ = 0x15,      /* opposite of EQ */
   CLR = 0x16,      /* clear register (set to zero) */
   HALT = 0x30      /* halt/stop the machine */
-} OPCODE;
+} Opcode;
 
 
 #define POP(a) command(POP, (a), 0)
-
 #define PUSH(a) command(PUSH, (a), 0)
-
 #define ADD(a,b) command(ADD, (a), (b))
-
 #define SUB(a,b) command(SUB, (a), (b))
-
 #define MUL(a,b) command(MUL, (a), (b))
-
 #define DIV(a,b) command(DIV, (a), (b))
-
 #define ADDI(a,b) command(ADDI, (a), (b))
-
 #define SUBI(a,b) command(SUBI, (a), (b))
-
 #define MULI(a,b) command(MULI, (a), (b))
-
 #define DIVI(a,b) command(DIVI, (a), (b))
-
 #define LOAD(a,b) command(LOAD, (a), (b))
-
 #define LOADI(a,b) command(LOADI, (a), (b))
-
 #define MOV(a,b) command(MOV, (a), (b))
-
 #define JMP(a) command(JMP, (a), 0)
-
 #define JMPZ(a) command(JMPZ, (a), 0)
-
 #define COM(a) command(COM, (a), 0)
-
 #define NEG(a) command(NEG, (a), 0)
-
 #define CALL(a) command(CALL, (a), 0)
-
 #define RET() command(RET, 0, 0))
-
 #define PRINT(a) command(PRINT, (a), 0)
-
 #define EQ(a,b) command(EQ, (a), (b))
-
 #define NEQ(a,b) command(NEQ, (a), (b))
-
 #define CLR(a,b) command(CLR, (a), (b))
-
 #define HALT() command(HALT, 0, 0)
-
 
 
 /*
@@ -88,20 +80,16 @@ typedef enum {
   6 bits for opcode (0x00 - 0xFF + 1 extra bit (not used yet)) (possibly up to 255 built-in operations)
   5 bits for each operand (either adress of register or literal value)
  */
-typedef unsigned short COMMAND; 
+typedef unsigned short Command; 
 
 /* operand is 5 bit (first 3 bits are ignored) */
-typedef unsigned char OPERAND;  
+typedef unsigned char Operand;  
 
 
 /************************
    function declarations
 *************************/
 
-OPERAND first_op(COMMAND c);
-OPERAND second_op(COMMAND c);
-OPCODE  opcode(COMMAND c);
-
-COMMAND command(OPCODE opcode, OPERAND op1, OPCODE op2);
+Command command(Opcode opcode, Operand op1, Operand op2);
 
 #endif

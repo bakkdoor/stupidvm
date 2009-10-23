@@ -1,10 +1,10 @@
 #include "includes.h"
 
 /* register is 8 bit */
-typedef unsigned char REGISTER; 
+typedef unsigned char Register; 
 
 /* define 16 8-bit registers */
-REGISTER regs[16] = {0,0,0,0,
+Register regs[16] = {0,0,0,0,
                      0,0,0,0,
                      0,0,0,0,};
 /**
@@ -13,17 +13,17 @@ REGISTER regs[16] = {0,0,0,0,
    including:
    LSB: indicating if last boolean operation was true or false.
 */
-REGISTER status;
+Register status;
 
 /* 32-bit programm counter */
 int PC; 
 
-void run(COMMAND* programm)
+void run(Command* programm)
 {
-  COMMAND cmd;
-  OPERAND opc, source, destination;
+  Command cmd;
+  Operand opc, op1, op2;
   Stack stack;
-  REGISTER reg1, reg2;
+  Register reg1, reg2;
   init(&stack);
   PC = 0;
   status = 0;
@@ -31,75 +31,65 @@ void run(COMMAND* programm)
   while(1) { 
     cmd = programm[PC];
     opc = opcode(cmd);
+    op1 = first(cmd);
+    op2 = second(cmd);
     
     switch(opc) {
     case POP:
-      regs[first_op(cmd)] = pop(&stack);
+      regs[op1] = pop(&stack);
       break;
     case PUSH:
-      source = first_op(cmd); /* register number */
-      reg1 = regs[source]; /* value of register */
-      push(&stack, reg1);  /* push value into stack */
+      push(&stack, regs[op1]);   /* push value into stack */
       break;
     case MUL:
-      destination = first_op(cmd);
-      reg1 = regs[destination];
-      reg2 = regs[second_op(cmd)];
-      regs[destination] = reg1 * reg2;
+      reg1 = regs[op1];
+      reg2 = regs[op2];
+      regs[op1] = reg1 * reg2;
       break;
     case SUB:
-      destination = first_op(cmd);
-      reg1 = regs[destination];
-      reg2 = regs[second_op(cmd)];
-      regs[destination] = reg1 - reg2;
+      reg1 = regs[op1];
+      reg2 = regs[op2];
+      regs[op1] = reg1 - reg2;
       break;
     case DIV:
-      destination = first_op(cmd);
-      reg1 = regs[destination];
-      reg2 = regs[second_op(cmd)];
-      regs[destination] = reg1 / reg2;
+      reg1 = regs[op1];
+      reg2 = regs[op2];
+      regs[op1] = reg1 / reg2;
       break;
     case ADDI:
-      destination = second_op(cmd);
-      regs[destination] += first_op(cmd);
+      regs[op2] += op1;
       break;
     case MULI:
-      destination = second_op(cmd);
-      regs[destination] *= first_op(cmd);
+      regs[op2] *= op1;
       break;
     case SUBI:
-      destination = second_op(cmd);
-      regs[destination] -= first_op(cmd);
+      regs[op2] -= op1;
       break;
     case DIVI:
-      destination = second_op(cmd);
-      regs[destination] /= first_op(cmd);
+      regs[op2] /= op1;
       break;
     case LOAD:
       /* needs to be implemented */
       break;
     case LOADI:
-      destination = second_op(cmd);
-      regs[destination] = first_op(cmd);
+      regs[op2] = op1;
       break;
     case MOV:
-      regs[second_op(cmd)] = regs[first_op(cmd)];
+      regs[op2] = regs[op1];
       break;
     case JMP:
-      PC = first_op(cmd);
+      PC = op1;
       break;
     case JMPZ:
       if(!status) {
-        PC = first_op(cmd);
+        PC = op1;
       }
       break;
     case COM:
-      destination = first_op(cmd);
-      regs[destination] = ~regs[destination];
+      regs[op1] = ~regs[op1];
       break;
     case NEG:
-      destination = first_op(cmd);
-      regs[destination] = regs[destination] * -1;
+      regs[op1] = regs[op1] * -1;
       break;
     case CALL:
       /* needs to be implemented */
@@ -108,16 +98,16 @@ void run(COMMAND* programm)
       /* needs to be implemented */
       break;
     case PRINT:
-      printf("%d\n", regs[first_op(cmd)]);
+      printf("%d\n", regs[op1]);
       break;
     case EQ:
-      status = regs[first_op(cmd)] == regs[second_op(cmd)] ? 1 : 0;
+      status = regs[op1] == regs[op2] ? 1 : 0;
       break;
     case NEQ:
-      status = regs[first_op(cmd)] != regs[second_op(cmd)] ? 1 : 0;
+      status = regs[op1] != regs[op2] ? 1 : 0;
       break;
     case CLR:
-      regs[first_op(cmd)] = 0;
+      regs[op1] = 0;
       break;
     case HALT:
       printf("halting machine.\n");
@@ -127,9 +117,14 @@ void run(COMMAND* programm)
   }
 }
 
+
+/**
+   Main function.
+   Starts the vm execution process.
+*/
 int main(int argc, char *argv[])
 {
-  COMMAND p[] = example1();
+  Command p[] = example1();
   run(p);
   return 0;
 }

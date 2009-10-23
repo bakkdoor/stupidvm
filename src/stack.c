@@ -1,13 +1,13 @@
 #include "includes.h"
 
-void push(Stack *S, OPERAND val)
+void push(Stack *S, Operand val)
 {
     S->v[ S->top ] = val; 
    (S->top)++;    
 /*  Equivalent to: S->v[ (S->top)++ ] = val;   */
 }
 
-OPERAND pop(Stack *S)
+Operand pop(Stack *S)
 {
     (S->top)--;
     return (S->v[S->top]);
