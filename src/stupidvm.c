@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "opcodes.h"
-#include "stack.h"
-
+#include "includes.h"
 
 /* register is 8 bit */
 typedef unsigned char REGISTER; 
@@ -13,70 +7,139 @@ typedef unsigned char REGISTER;
 REGISTER regs[16] = {0,0,0,0,
                      0,0,0,0,
                      0,0,0,0,};
+/**
+   status register.
+   holds information about certain status flags.
+   including:
+   LSB: indicating if last boolean operation was true or false.
+*/
+REGISTER status;
 
 /* 8-bit programm counter */
 int PC; 
 
 
-COMMAND* create_programm(void)
+COMMAND* example_programm(void)
 {
-  COMMAND* p = malloc(1 * sizeof(COMMAND));
-  /* int i; */
-  /* for(i=0; i<9; i++) { */
-  /*   p[i] = build_cmd(HALT, 1, 2); */
-  /* } */
-  p[0] = build_cmd(HALT, 2, 3);
+  COMMAND* p = malloc(10 * sizeof(COMMAND));
+
+  p[0] = build_cmd(LOADI, 10, 0);
+  p[1] = build_cmd(LOADI, 5, 1);
+  p[2] = build_cmd(MUL, 0, 1);
+  p[3] = build_cmd(PUSH, 1, 0);
+  p[4] = build_cmd(LOADI, 100, 1);
+  p[5] = build_cmd(MUL, 0, 1);
+  p[6] = build_cmd(POP, 1, 0);
+  p[7] = build_cmd(PRINT, 0, 0);
+  p[8] = build_cmd(PRINT, 1, 0);
+  p[9] = build_cmd(HALT, 0, 0);
+
   return p;
 }
-
-void command_to_bin(COMMAND dez,char a[])
-{
-   char zw[33]; long r;
-
-   a[0]='\0';
-   while(dez>0)
-   {
-      r=dez%2;
-      if(r==1) strcpy(zw,"1");
-      else strcpy(zw,"0");
-      strcat(zw,a);
-      strcpy(a,zw);
-      dez/=2;
-   }
-} 
 
 
 void run(COMMAND* programm)
 {
   COMMAND cmd;
-  OPERAND opc;
+  OPERAND opc, source, destination;
   Stack stack;
+  REGISTER reg1, reg2;
   init(&stack);
   PC = 0;
-  char str[16];
-  command_to_bin(programm[PC], &str);
-
-  printf("command is: %s\n", str);
-  
-  /*  while(1) { */
+  status = 0;
+ 
+  while(1) { 
     cmd = programm[PC];
     opc = opcode(cmd);
-    command_to_bin(opc, &str);
-    printf("opcode is: %s\n", str);
-
+    
     switch(opc) {
     case POP:
       pop(&stack);
       break;
-    case 19:
-      printf("halting machine\n");
+    case PUSH:
+      source = first_op(cmd); /* register number */
+      reg1 = regs[source]; /* value of register */
+      push(&stack, reg1);  /* push value into stack */
+      break;
+    case MUL:
+      destination = first_op(cmd);
+      reg1 = regs[destination];
+      reg2 = regs[second_op(cmd)];
+      regs[destination] = reg1 * reg2;
+      break;
+    case SUB:
+      destination = first_op(cmd);
+      reg1 = regs[destination];
+      reg2 = regs[second_op(cmd)];
+      regs[destination] = reg1 - reg2;
+      break;
+    case DIV:
+      destination = first_op(cmd);
+      reg1 = regs[destination];
+      reg2 = regs[second_op(cmd)];
+      regs[destination] = reg1 / reg2;
+      break;
+    case ADDI:
+      destination = second_op(cmd);
+      regs[destination] += first_op(cmd);
+      break;
+    case MULI:
+      destination = second_op(cmd);
+      regs[destination] *= first_op(cmd);
+      break;
+    case SUBI:
+      destination = second_op(cmd);
+      regs[destination] -= first_op(cmd);
+      break;
+    case DIVI:
+      destination = second_op(cmd);
+      regs[destination] /= first_op(cmd);
+      break;
+    case LOAD:
+      /* needs to be implemented */
+      break;
+    case LOADI:
+      destination = second_op(cmd);
+      regs[destination] = first_op(cmd);
+      break;
+    case MOV:
+      regs[second_op(cmd)] = regs[first_op(cmd)];
+      break;
+    case JMP:
+      PC = first_op(cmd);
+      break;
+    case JMPZ:
+      if(!status) {
+        PC = first_op(cmd);
+      }
+      break;
+    case COM:
+      destination = first_op(cmd);
+      regs[destination] = ~regs[destination];
+      break;
+    case NEG:
+      destination = first_op(cmd);
+      regs[destination] = regs[destination] * -1;
+      break;
+    case CALL:
+      /* needs to be implemented */
+      break;
+    case RET:
+      /* needs to be implemented */
+      break;
+    case PRINT:
+      printf("%d\n", regs[first_op(cmd)]);
+      break;
+    case HALT:
+      printf("halting machine.\n");
       return;
     }
-  /* } */
+    PC++;
+  }
 }
 
 int main(int argc, char *argv[])
 {
-  run(create_programm());
+  run(example_programm());
   return 0;
 }
