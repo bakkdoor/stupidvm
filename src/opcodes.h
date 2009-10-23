@@ -26,7 +26,10 @@ typedef enum {
   CALL = 0x11,     /* call a function */
   RET = 0x12,      /* return from function */
   PRINT = 0x13,    /* print content of register to stdout */
-  HALT = 0x14      /* halt/stop the machine */
+  EQ = 0x14,       /* set status = 1 if contents of registers equal */
+  NEQ = 0x15,      /* opposite of EQ */
+  CLR = 0x16,      /* clear register (set to zero) */
+  HALT = 0x99      /* halt/stop the machine */
 } OPCODE;
 
 
@@ -69,6 +72,12 @@ typedef enum {
 #define RET() command(RET, 0, 0))
 
 #define PRINT(a) command(PRINT, (a), 0)
+
+#define EQ(a,b) command(EQ, (a), (b))
+
+#define NEQ(a,b) command(NEQ, (a), (b))
+
+#define CLR(a,b) command(CLR, (a), (b))
 
 #define HALT() command(HALT, 0, 0)
 

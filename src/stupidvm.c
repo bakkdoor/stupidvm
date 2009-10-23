@@ -110,6 +110,15 @@ void run(COMMAND* programm)
     case PRINT:
       printf("%d\n", regs[first_op(cmd)]);
       break;
+    case EQ:
+      status = regs[first_op(cmd)] == regs[second_op(cmd)] ? 1 : 0;
+      break;
+    case NEQ:
+      status = regs[first_op(cmd)] != regs[second_op(cmd)] ? 1 : 0;
+      break;
+    case CLR:
+      regs[first_op(cmd)] = 0;
+      break;
     case HALT:
       printf("halting machine.\n");
       return;
