@@ -23,8 +23,8 @@
 #define TMP 14
 #define POINTER 15
 
-#define fibonacci() {                                    \
-    LOADI(COUNT, 14),                                    \
+#define fibonacci(AMOUNT) {                              \
+    LOADI(COUNT, AMOUNT),                                \
       LOADI(ZERO, 0),                                    \
       LOADI(FIBN2, 0),                                   \
       LOADI(FIBN1, 1),                                   \

@@ -1,25 +1,9 @@
 #ifndef OPCODES_H
 #define OPCODES_H
 
-#define OPC_SIZE 6          /* number of bits for OPCODES */
-#define COMMAND_SIZE 16     /* number of bits for COMMANDS */
-#define OP_SIZE 5           /* number of bits for OPERANDS */
-
-/* 1st operand matches bit mask: 000000 11111 00000 (= 0x3E0) */
-#define FIRST_MSK 0x3E0
-
-/* 2nd operand matches bit mask: 000000 00000 11111 (= 0x1F) */
-#define SECOND_MSK 0x1F
-
-
 /************************
    opcode & operand macro declarations
 *************************/
-
-#define first(c) ((c & FIRST_MSK) >> OP_SIZE)
-#define second(c) (c & SECOND_MSK)
-#define opcode(c) (c >> (COMMAND_SIZE - OPC_SIZE))
-
 
 typedef enum {
   POP = 0x00,      /* pop value from stack to register */
@@ -54,53 +38,49 @@ typedef enum {
   HALT = 0x30      /* halt/stop the machine */
 } Opcode;
 
+typedef unsigned char Byte;
 
-#define POP(reg) command(POP, (reg), 0)
-#define PUSH(reg) command(PUSH, (reg), 0)
-#define ADD(reg,reg2) command(ADD, (reg), (reg2))
-#define SUB(reg,reg2) command(SUB, (reg), (reg2))
-#define MUL(reg,reg2) command(MUL, (reg), (reg2))
-#define DIV(reg,reg2) command(DIV, (reg), (reg2))
-#define ADDI(reg,reg2) command(ADDI, (reg), (reg2))
-#define SUBI(reg,reg2) command(SUBI, (reg), (reg2))
-#define MULI(reg,reg2) command(MULI, (reg), (reg2))
-#define DIVI(reg,reg2) command(DIVI, (reg), (reg2))
-#define LOAD(reg,addr) command(LOAD, (reg), (addr))
-#define LOADI(reg,val) command(LOADI, (reg), (val))
-#define MOV(reg_dest,reg_src) command(MOV, (reg_dest), (reg_src))
-#define JMP(addr) command(JMP, (addr), 0)
-#define JMPC(addr) command(JMPC, (addr), 0)
-#define COM(reg) command(COM, (reg), 0)
-#define NEG(reg) command(NEG, (reg), 0)
-#define CALL(func) command(CALL, (func), 0)
-#define RET() command(RET, 0, 0))
-#define PRINT(reg) command(PRINT, (reg), 0)
-#define EQ(reg,reg2) command(EQ, (reg), (reg2))
-#define NEQ(reg,reg2) command(NEQ, (reg), (reg2))
-#define CLR(reg) command(CLR, (reg), 0)
-#define SET(reg) command(SET, (reg), 0)
-#define ST(reg_addr,reg) command(ST, (reg_addr), (reg))
-#define INC(reg) command(INC, (reg), 0)
-#define DEC(reg) command(DEC, (reg), 0)
-#define JMPBC(reg) command(JMPBC, (reg), 0)
-#define HALT() command(HALT, 0, 0)
+/* operand is 32 bit */
+typedef int Operand;  
 
+/* Instructions consist of the opcode and up to two operands */
+typedef struct {
+  Byte opcode;
+  Operand op1;
+  Operand op2;
+} Instruction;
 
-/*
-  command is 16 bit:
-  6 bits for opcode (0x00 - 0xFF + 1 extra bit (not used yet)) (possibly up to 255 built-in operations)
-  5 bits for each operand (either adress of register or literal value)
- */
-typedef unsigned short Command; 
+/* short-hand macro for creating instructions */
+#define instruction(name,a,b) {name,a,b}
 
-/* operand is 5 bit (first 3 bits are ignored) */
-typedef unsigned char Operand;  
-
-
-/************************
-   function declarations
-*************************/
-
-Command command(Opcode opcode, Operand op1, Operand op2);
+#define POP(reg) instruction(POP, reg, 0)
+#define PUSH(reg) instruction(PUSH, reg, 0)
+#define ADD(reg,reg2) instruction(ADD, reg, reg2)
+#define SUB(reg,reg2) instruction(SUB, reg, reg2)
+#define MUL(reg,reg2) instruction(MUL, reg, reg2)
+#define DIV(reg,reg2) instruction(DIV, reg, reg2)
+#define ADDI(reg,reg2) instruction(ADDI, reg, reg2)
+#define SUBI(reg,reg2) instruction(SUBI, reg, reg2)
+#define MULI(reg,reg2) instruction(MULI, reg, reg2)
+#define DIVI(reg,reg2) instruction(DIVI, reg, reg2)
+#define LOAD(reg,addr) instruction(LOAD, reg, addr)
+#define LOADI(reg,val) instruction(LOADI, reg, val)
+#define MOV(reg_dest,reg_src) instruction(MOV, reg_dest, reg_src)
+#define JMP(addr) instruction(JMP, addr, 0)
+#define JMPC(addr) instruction(JMPC, addr, 0)
+#define COM(reg)instruction(COM, reg, 0)
+#define NEG(reg)instruction(NEG, reg, 0)
+#define CALL(func) instruction(CALL, func, 0)
+#define RET() instruction(RET, 0, 0))
+#define PRINT(reg) instruction(PRINT, reg, 0)
+#define EQ(reg,reg2) instruction(EQ, reg, reg2)
+#define NEQ(reg,reg2) instruction(NEQ, reg, reg2)
+#define CLR(reg) instruction(CLR, reg, 0)
+#define SET(reg) instruction(SET, reg, 0)
+#define ST(reg_addr,reg) instruction(ST, reg_addr, reg)
+#define INC(reg)instruction(INC, reg, 0)
+#define DEC(reg)instruction(DEC, reg, 0)
+#define JMPBC(reg)instruction(JMPBC, reg, 0)
+#define HALT() instruction(HALT, 0, 0)
 
 #endif

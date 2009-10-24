@@ -1,15 +1,16 @@
 #include "includes.h"
 
-/* register is 8 bit */
-typedef unsigned char Register; 
+/* register is 32 bit */
+typedef int Register; 
 
 /* maximum value for registers (all bits = 1) */
-#define MAX_REG_VAL 0xFF
+#define MAX_REG_VAL 0xFFFFFFFF
 
-/* define 16 8-bit registers */
-Register regs[16] = {0,0,0,0,
-                     0,0,0,0,
-                     0,0,0,0,};
+/* define 32 32-bit registers */
+Register regs[32] = {0,0,0,0,0,0,0,0,
+                     0,0,0,0,0,0,0,0,
+                     0,0,0,0,0,0,0,0,
+                     0,0,0,0,0,0,0,0};
 /**
    status register.
    holds information about certain status flags.
@@ -25,10 +26,11 @@ int PC;
 #define MAX_VM_MEMORY 65536 /* for now, 2^16 = 64k bytes */
 Register* memory;
 
-void run(Command* programm)
+void run(Instruction* programm)
 {
-  Command cmd;
-  Operand opc, op1, op2;
+  Instruction ins;
+  Byte opc;
+  Operand op1, op2;
   Stack stack;
   init(&stack);
   PC = 0;
@@ -37,10 +39,10 @@ void run(Command* programm)
   memory = malloc(MAX_VM_MEMORY * sizeof(Register));
 
   while(1) { 
-    cmd = programm[PC];
-    opc = opcode(cmd);
-    op1 = first(cmd);
-    op2 = second(cmd);
+    ins = programm[PC];
+    opc = ins.opcode;
+    op1 = ins.op1;
+    op2 = ins.op2;
 
     switch(opc) {
     case POP:
@@ -146,12 +148,13 @@ void run(Command* programm)
 */
 int main(int argc, char *argv[])
 {
-  Command p[] = fibonacci();
+  int amount = 40;
+  Instruction p[] = fibonacci(amount);
   run(p);
   
   puts("=====================");
   printf("dumping memory:\n");
-  for(PC = 0; PC < 14; PC ++) {
+  for(PC = 0; PC < amount; PC ++) {
     printf("memory[%d] is: %d\n", PC, memory[PC]);
   }
 
