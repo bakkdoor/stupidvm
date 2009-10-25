@@ -35,6 +35,7 @@ typedef enum {
   INC = 0x19,      /* increment (+1) register */
   DEC = 0x1A,      /* decrement (-1) register */
   JMPBC = 0x1B,
+  SIS = 0x1C,     /* skip next instruction, if status = 1 */
   HALT = 0x30      /* halt/stop the machine */
 } Opcode;
 
@@ -68,19 +69,20 @@ typedef struct {
 #define MOV(reg_dest,reg_src) instruction(MOV, reg_dest, reg_src)
 #define JMP(addr) instruction(JMP, addr, 0)
 #define JMPC(addr) instruction(JMPC, addr, 0)
-#define COM(reg)instruction(COM, reg, 0)
-#define NEG(reg)instruction(NEG, reg, 0)
+#define COM(reg) instruction(COM, reg, 0)
+#define NEG(reg) instruction(NEG, reg, 0)
 #define CALL(func) instruction(CALL, func, 0)
-#define RET() instruction(RET, 0, 0))
+#define RET() instruction(RET, 0, 0)
 #define PRINT(reg) instruction(PRINT, reg, 0)
 #define EQ(reg,reg2) instruction(EQ, reg, reg2)
 #define NEQ(reg,reg2) instruction(NEQ, reg, reg2)
 #define CLR(reg) instruction(CLR, reg, 0)
 #define SET(reg) instruction(SET, reg, 0)
 #define ST(reg_addr,reg) instruction(ST, reg_addr, reg)
-#define INC(reg)instruction(INC, reg, 0)
-#define DEC(reg)instruction(DEC, reg, 0)
-#define JMPBC(reg)instruction(JMPBC, reg, 0)
+#define INC(reg) instruction(INC, reg, 0)
+#define DEC(reg) instruction(DEC, reg, 0)
+#define JMPBC(reg) instruction(JMPBC, reg, 0)
+#define SIS() instruction(SIS, 0, 0)
 #define HALT() instruction(HALT, 0, 0)
 
 #endif
