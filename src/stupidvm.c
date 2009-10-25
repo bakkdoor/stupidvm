@@ -76,7 +76,7 @@ void run(Instruction* programm)
       regs[op1] /= op2;
       break;
     case LOAD:
-      /* needs to be implemented */
+      regs[op1] = memory[op2];
       break;
     case LOADI:
       regs[op1] = op2;
