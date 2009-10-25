@@ -61,7 +61,7 @@
       PRINT(B),                                 \
       CALL(9),                                  \
       PRINT(C),                                 \
-      RET(),                                    \
+      HALT(),                                   \
   /* beginning of procedure1 */                 \
     LOADI(A, 0),                                \
       LOADI(B, 1),                              \

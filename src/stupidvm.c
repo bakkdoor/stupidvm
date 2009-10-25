@@ -48,8 +48,6 @@ void run(Instruction* programm)
     op1 = ins.op1;
     op2 = ins.op2;
 
-    printf("op1=%d - PC=%d\n", op1, PC);
-
     switch(opc) {
     case POP:
       regs[op1] = pop(&stack);
@@ -119,7 +117,7 @@ void run(Instruction* programm)
          order */
       PC = pop(&callstack);
       status = pop(&callstack);
-      for(i=14; i>= 0; i--) {
+      for(i=(NUM_REGS - 1); i > -1; i--) {
         regs[i] = pop(&callstack);
       }
       break;
@@ -178,11 +176,11 @@ int main(int argc, char *argv[])
   Instruction p[] = procedures();
   run(p);
   
-  puts("=====================");
-  printf("dumping memory:\n");
-  for(PC = 0; PC < amount; PC ++) {
-    printf("memory[%d] is: %d\n", PC, memory[PC]);
-  }
+  /* puts("====================="); */
+  /* printf("dumping memory:\n"); */
+  /* for(PC = 0; PC < amount; PC ++) { */
+  /*   printf("memory[%d] is: %d\n", PC, memory[PC]); */
+  /* } */
 
   return 0;
 }

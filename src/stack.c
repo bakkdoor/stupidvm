@@ -9,7 +9,7 @@ void push(Stack *S, Operand val)
 Operand pop(Stack *S)
 {
   (S->top)--;
-  if(S->top <= 0) {
+  if(S->top < 0) {
     fprintf(stderr, "\nERROR: pop() on empty Stack!\n");
     exit(-1);
   } else {
@@ -24,7 +24,7 @@ void init(Stack *S)
 
 Bool full(Stack *S)
 {
-  return (S->top >= STACK_MAX_SIZE);
+  return (S->top > STACK_MAX_SIZE);
 }
 
 Bool empty(Stack *S)
