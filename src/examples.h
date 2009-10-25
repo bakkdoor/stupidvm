@@ -44,7 +44,32 @@
       MOV(FIBN1, TMP),                                   \
       DEC(COUNT),                                        \
       NEQ(COUNT, ZERO),                                  \
-      JMPBC(9),                                          \
+      JMPBC(8),                                          \
       HALT()                                             \
     }
+
+#define A 0
+#define B 1
+#define C 2
+/* simple example with procedures */
+#define procedures() {                          \
+    LOADI(A,777),                               \
+      LOADI(B, 888),                            \
+      LOADI(C,999),                             \
+      PRINT(A),                                 \
+      CALL(9),                                  \
+      PRINT(B),                                 \
+      CALL(9),                                  \
+      PRINT(C),                                 \
+      RET(),                                    \
+  /* beginning of procedure1 */                 \
+    LOADI(A, 0),                                \
+      LOADI(B, 1),                              \
+      LOADI(C, 2),                              \
+      PRINT(A),                                 \
+      PRINT(B),                                 \
+      PRINT(C),                                 \
+      RET()                                     \
+    }
+
 #endif
