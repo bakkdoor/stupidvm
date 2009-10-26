@@ -1,0 +1,12 @@
+---------------------------------------------------------------------
+stupidvm v0.1
+
+stupidvm is a stupid virtual machine written in C.
+
+Basically, I wanted to experiment a little with writing a small and
+simple register-based virtual machine. It's licensed under the GNU
+LGPL v3. Have a look at the LICENSE file for more information on
+licensing terms.
+
+Copyright (C) 2009 Christopher Bertels <bakkdoor@flasht.de>
+---------------------------------------------------------------------
