@@ -15,18 +15,19 @@
     along with stupidvm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDES_H
-#define INCLUDES_H
+#include "includes.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
+/* register is 32 bit */
+typedef int Register; 
 
-#include "opcodes.h"
-#include "stack.h"
-#include "examples.h"
-#include "stupidvm.h"
+/* maximum value for registers (all bits = 1) */
+#define MAX_REG_VAL 0xFFFFFFFF
 
+#define NUM_REGS 32
 
-#endif
+/* size of vm memory */
+#define MAX_VM_MEMORY 65536 /* for now, 2^16 = 64k bytes */
+
+/* function definitions */
+void run(Instruction* programm);
+void run_from_file(char* filename);

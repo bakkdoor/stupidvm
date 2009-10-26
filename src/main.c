@@ -15,18 +15,27 @@
     along with stupidvm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDES_H
-#define INCLUDES_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-
-#include "opcodes.h"
-#include "stack.h"
-#include "examples.h"
-#include "stupidvm.h"
+#include "includes.h"
 
 
-#endif
+/**
+   Main function.
+   Starts the vm execution process.
+*/
+int main(int argc, char *argv[])
+{
+  if(argc > 1) {
+    run_from_file(argv[1]);
+  } else {
+    fprintf(stderr, "Error: Please specify a .stupid compiled bytecode file.\n");
+    return -1;
+  }
+  
+  /* puts("====================="); */
+  /* printf("dumping memory:\n"); */
+  /* for(PC = 0; PC < amount; PC ++) { */
+  /*   printf("memory[%d] is: %d\n", PC, memory[PC]); */
+  /* } */
+  /**/
+  return 0;
+}

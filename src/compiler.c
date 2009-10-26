@@ -15,18 +15,24 @@
     along with stupidvm.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDES_H
-#define INCLUDES_H
+#include "includes.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-
-#include "opcodes.h"
-#include "stack.h"
-#include "examples.h"
-#include "stupidvm.h"
-
-
-#endif
+/**
+   This is a very simple implementation of a bytecode compiler.
+   Basically, all we do is take some instructions (for now, created in
+   examples.h with a macro) and write them binary to a specified file.
+ */
+int main(int argc, char *argv[]) {
+  if(argc > 1) {
+    char* filename = argv[1];
+    Instruction p[] = procedures();
+    int length = sizeof(p) / sizeof(Instruction);
+    FILE *file = fopen(filename, "w+b");
+    fwrite(p, sizeof(Instruction), length, file);
+    fclose(file);
+    return 0;
+  } else {
+    fprintf(stderr, "Error: Please specify an output filename to save bytcode to.\n");
+    return -1;
+  }
+}

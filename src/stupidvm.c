@@ -17,14 +17,6 @@
 
 #include "includes.h"
 
-/* register is 32 bit */
-typedef int Register; 
-
-/* maximum value for registers (all bits = 1) */
-#define MAX_REG_VAL 0xFFFFFFFF
-
-#define NUM_REGS 32
-
 /* define NUM_REGS 32-bit registers */
 Register regs[NUM_REGS] = {0,0,0,0,0,0,0,0,
                            0,0,0,0,0,0,0,0,
@@ -40,9 +32,6 @@ Register status;
 
 /* 32-bit programm counter */
 int PC;
-
-/* size of vm memory */
-#define MAX_VM_MEMORY 65536 /* for now, 2^16 = 64k bytes */
 Register* memory;
 
 void run(Instruction* programm)
@@ -182,22 +171,36 @@ void run(Instruction* programm)
 }
 
 
-/**
-   Main function.
-   Starts the vm execution process.
-*/
-int main(int argc, char *argv[])
-{
-  /* int amount = 40; */
-  /* Instruction p[] = fibonacci(amount); */
-  Instruction p[] = procedures();
-  run(p);
+void run_from_file(char* filename) {
+  Instruction* buffer;
+  FILE *file;
+  unsigned long file_length;
   
-  /* puts("====================="); */
-  /* printf("dumping memory:\n"); */
-  /* for(PC = 0; PC < amount; PC ++) { */
-  /*   printf("memory[%d] is: %d\n", PC, memory[PC]); */
-  /* } */
-  /**/
-  return 0;
+  file = fopen(filename, "rb");
+  if (!file) {
+    fprintf(stderr, "Unable to open file %s\n", filename);
+    return;
+  }
+  
+  /* get file length */
+  fseek(file, 0, SEEK_END);
+  file_length = ftell(file);
+  fseek(file, 0, SEEK_SET);
+  
+  /* alloc instruction buffer memory */
+  buffer = (Instruction*) malloc(file_length+1);
+  if (!buffer) {
+      fprintf(stderr, "Memory error!");
+      fclose(file);
+      return;
+  }
+  
+  /* read file into buffer */
+  fread(buffer, file_length, 1, file);
+  fclose(file);
+  
+  run(buffer);
+
+  /* free memory when done */
+  free(buffer);
 }
