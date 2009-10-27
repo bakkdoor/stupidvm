@@ -13,7 +13,7 @@
 
     You should have received a copy of the GNU General Public License
     along with stupidvm.  If not, see <http://www.gnu.org/licenses/>.
- */
+*/
 
 #ifndef INCLUDES_H
 #define INCLUDES_H
@@ -23,6 +23,7 @@
 #include <string.h>
 #include <errno.h>
 
+#include "utils.h"
 #include "opcodes.h"
 #include "stack.h"
 #include "examples.h"

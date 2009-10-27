@@ -13,7 +13,7 @@
 
     You should have received a copy of the GNU General Public License
     along with stupidvm.  If not, see <http://www.gnu.org/licenses/>.
- */
+*/
 
 #include "includes.h"
 
@@ -40,11 +40,12 @@ void run(Instruction* programm)
   Byte opc;
   Operand op1, op2;
   Stack stack, callstack;
+  int i;
+
   init(&stack);
   init(&callstack);
   PC = 0;
   status = 0;
-  int i;
 
   memory = malloc(MAX_VM_MEMORY * sizeof(Register));
 
@@ -174,7 +175,7 @@ void run(Instruction* programm)
 void run_from_file(char* filename) {
   Instruction* buffer;
   FILE *file;
-  unsigned long file_length;
+  unsigned long flength;
   
   file = fopen(filename, "rb");
   if (!file) {
@@ -183,20 +184,18 @@ void run_from_file(char* filename) {
   }
   
   /* get file length */
-  fseek(file, 0, SEEK_END);
-  file_length = ftell(file);
-  fseek(file, 0, SEEK_SET);
+  flength = file_length(file);
   
   /* alloc instruction buffer memory */
-  buffer = (Instruction*) malloc(file_length+1);
+  buffer = (Instruction*) malloc(flength+1);
   if (!buffer) {
-      fprintf(stderr, "Memory error!");
-      fclose(file);
-      return;
+    errormsg("Memory error!");
+    fclose(file);
+    return;
   }
   
   /* read file into buffer */
-  fread(buffer, file_length, 1, file);
+  fread(buffer, flength, 1, file);
   fclose(file);
   
   run(buffer);
