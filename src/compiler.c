@@ -28,6 +28,12 @@ Instruction instruction_from_line(char *line) {
   return i;
 }
 
+FILE* exec_cpp(char *source_filename) {
+  char command[500] = {"cpp "};
+  strcat(command, source_file);
+  return popen(command, "r");
+}
+
 /**
    This is a very simple implementation of a bytecode compiler.
    Basically, all we do is take some instructions (for now, created in
@@ -39,9 +45,10 @@ int main(int argc, char *argv[]) {
     char *dest_file = argv[2];
     char *line;
     Instruction inst;
+    FILE *source, *destination;
 
-    FILE *source = fopen(source_file, "r");
-    FILE *destination = fopen(dest_file, "w+b");
+    source = exec_cpp(source_file);
+    destination = fopen(dest_file, "w+b");
 
     /* check, if opening worked */
     if(!source) {
@@ -52,10 +59,15 @@ int main(int argc, char *argv[]) {
     }
 
     /* compile line & write to destination file */
-    while( (line = read_line(source)) ) {
-      inst = instruction_from_line(line);
-      printf("writing instruction. opc: %d, op1: %d, op2: %d\n", inst.opcode, inst.op1, inst.op2);
-      fwrite(&inst, sizeof(Instruction), sizeof(Instruction), destination);
+    while( (line = read_line(source)) ) {      
+      /* only write lines without a '#' in it (these lines are added
+         by cpp and are ignored) */
+      if(!strchr(line, '#')) {
+          printf("line is: %s\n", line);
+        inst = instruction_from_line(line);
+        printf("writing instruction. opc: %d, op1: %d, op2: %d\n", inst.opcode, inst.op1, inst.op2);
+        fwrite(&inst, sizeof(Instruction), sizeof(Instruction), destination);
+      }
       free(line);
     }
 
