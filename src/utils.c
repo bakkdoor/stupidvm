@@ -27,6 +27,44 @@ unsigned long file_length(FILE *file) {
   return fl;
 }
 
+#define BUF_SIZE 255
+
+char* read_line(FILE *f)
+{
+  /* static to remember if a previous call set EOF for given file */
+  static int c = 0; 
+  static int lineCount = 0;
+  int buf_size = BUF_SIZE;
+  int i = 0;
+  char *line;
+  
+  if(c==EOF) {
+    c=0; 
+    lineCount=0; 
+    return NULL;
+  }
+  
+  line = (char*) calloc(buf_size, sizeof(char));
+    
+  while ((c = fgetc(f)) != EOF && c != '\n') {
+    if(i >= buf_size) {
+      buf_size += (BUF_SIZE + 1);
+      line = (char*) realloc(line, buf_size*sizeof(char));
+    }
+    line[i++] = c;
+  }
+  
+  /* handle special case of empty file ...*/
+  if(lineCount++ == 0 && c == EOF) {
+    free(line); 
+    return NULL;
+  }
+  
+  /* add terminal 0 byte */
+  line[i] = '\0';
+  return realloc(line, i+1); 
+}
+
 void errormsg(char *message) {
   fprintf(stderr, "ERROR: %s\n", message);
 }

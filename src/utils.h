@@ -19,6 +19,7 @@
 #define UTILS_H
 
 unsigned long file_length(FILE *fp);
+char* read_line(FILE *f);
 void errormsg(char *message);
 
 #endif
