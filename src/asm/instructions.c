@@ -55,3 +55,52 @@ Instruction instruction_from_line(char *line) {
 
   return ins;
 }
+
+
+void build_instruction_words(InstructionWords *first, FILE *source) {
+  char *line;
+  char **read_words;
+  InstructionWords *current = first;
+
+  while( (line = read_line(source)) ) {
+    /* 
+       only write lines without a '#' in it (these lines are added
+       by cpp and are ignored), also ignore lines with ';' (comments)  
+    */
+    if(!strchr(line, '#') && !strchr(line, ';') && !empty_string(line)) {
+      printf("."); /* some output for the user to see */
+      /* inst = instruction_from_line(line); */
+      /* fwrite(&inst, sizeof(Instruction), 1, destination); */
+      
+      read_words = instruction_words(line);
+      current->opcode = read_words[0];
+      current->op1 = read_words[1];
+      current->op2 = read_words[2];
+      current->next = malloc(sizeof(InstructionWords));
+      current->next->next = NULL;
+      /* move pointer forward in list for next loop */
+      current = current->next;
+      
+      free(read_words);
+    }
+    free(line);
+  }
+}
+
+void compile_instruction_words(InstructionWords *first, FILE *destination) {
+  InstructionWords *current = first;
+}
+
+
+
+void free_list(InstructionWords *first) {
+  InstructionWords *last = first;
+  InstructionWords *current = first;
+  while(current->next) {
+    last = current;
+    current = current->next;
+    free(last);
+  }
+  free(current);
+}
+

@@ -15,5 +15,26 @@
     along with stupidvm.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/*
+   List type for instruction words read in from .sasm file
+   Each list element points to a next element (or NULL).
+
+   If element A.next points to element B, then element A was read in
+   first and B will be compiled after A (and also run in this order,
+   when executed by the vm).
+*/
+typedef struct instruction_words{
+  char *opcode;
+  char *op1;
+  char *op2;
+  struct instruction_words *next;
+} InstructionWords;
+
+
 char** instruction_words(char *line);
 Instruction instruction_from_line(char *line);
+void build_instruction_words(InstructionWords *first, FILE *source);
+void compile_instruction_words(InstructionWords *first, FILE *destination);
+
+/* list operations on InstructionWords */
+void free_list(InstructionWords *first);

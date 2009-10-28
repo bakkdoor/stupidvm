@@ -37,9 +37,14 @@ int main(int argc, char *argv[]) {
   if(argc == 3) {
     char *source_file = argv[1];
     char *dest_file = argv[2];
-    char *line;
-    Instruction inst;
+    /* Instruction inst; */
     FILE *source, *destination;
+    /* pointers to first & last (current) element in list */
+    InstructionWords *first, *current;
+    
+    first = malloc(sizeof(InstructionWords));
+    current = first; /* last points to first on init */
+    first->next = NULL;
 
     source = exec_cpp(source_file);
     destination = fopen(dest_file, "w+b");
@@ -53,22 +58,15 @@ int main(int argc, char *argv[]) {
     }
     
     printf("compiling to %s: ", dest_file);
-    /* compile line & write to destination file */
-    while( (line = read_line(source)) ) {
-      /* 
-         only write lines without a '#' in it (these lines are added
-         by cpp and are ignored), also ignore lines with ';' (comments)  
-      */
-      if(!strchr(line, '#') && !strchr(line, ';') && !empty_string(line)) {
-        printf("."); /* some output for the user to see */
-        inst = instruction_from_line(line);
-        fwrite(&inst, sizeof(Instruction), 1, destination);
-      }
-      free(line);
-    }
-
     printf("\n");
+    
+    /* free all InstructionWords elements */
+    free_list(first);
 
+    /* build up InstructionWords list */
+    build_instruction_words(first, source);
+    compile_instruction_words(first, destination);
+    
     fclose(source);
     fclose(destination);
 
