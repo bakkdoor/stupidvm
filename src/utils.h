@@ -21,5 +21,6 @@
 unsigned long file_length(FILE *fp);
 char* read_line(FILE *f);
 void errormsg(char *message);
+int empty_string(char *string);
 
 #endif
