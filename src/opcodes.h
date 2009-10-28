@@ -53,7 +53,7 @@ typedef enum {
   DEC = 0x1A,      /* decrement (-1) register */
   JMPBC = 0x1B,
   SIS = 0x1C,     /* skip next instruction, if status = 1 */
-  HALT = 0x30      /* halt/stop the machine */
+  HALT = 0x1D      /* halt/stop the machine */
 } Opcode;
 
 typedef unsigned char Byte;
@@ -101,5 +101,8 @@ typedef struct {
 #define JMPBC(reg) instruction(JMPBC, reg, 0)
 #define SIS() instruction(SIS, 0, 0)
 #define HALT() instruction(HALT, 0, 0)
+
+/* function definitions */
+Opcode opcode_from_string(char *string);
 
 #endif

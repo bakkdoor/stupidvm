@@ -1,5 +1,5 @@
 dir = src
-common_files = $(dir)/stack.c $(dir)/utils.c
+common_files = $(dir)/stack.c $(dir)/utils.c $(dir)/opcodes.c
 vm_files = $(dir)/main.c $(dir)/stupidvm.c
 compiler_files = $(dir)/compiler.c
 
