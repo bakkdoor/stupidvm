@@ -24,11 +24,10 @@
 #include <errno.h>
 #include <ctype.h>
 
-#include "utils.h"
-#include "opcodes.h"
-#include "stack.h"
-#include "examples.h"
-#include "stupidvm.h"
+#include "common/utils.h"
+#include "common/opcodes.h"
+#include "common/stack.h"
+#include "vm/stupidvm.h"
 
 
 #endif
