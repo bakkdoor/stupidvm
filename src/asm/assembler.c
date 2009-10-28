@@ -15,7 +15,7 @@
     along with stupidvm.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "includes.h"
+#include "../includes.h"
 
 void usage(void) {
   fprintf(stderr, "Usage:\n");

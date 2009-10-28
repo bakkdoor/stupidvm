@@ -27,7 +27,5 @@
 #include "common/utils.h"
 #include "common/opcodes.h"
 #include "common/stack.h"
-#include "vm/stupidvm.h"
-
 
 #endif
