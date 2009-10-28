@@ -77,10 +77,8 @@ int main(int argc, char *argv[]) {
     char *source_file = argv[1];
     char *dest_file = argv[2];
     char *line;
-    Instruction* inst;
-    int inst_size;
+    Instruction inst;
     FILE *source, *destination;
-    int i = 0;
 
     source = exec_cpp(source_file);
     destination = fopen(dest_file, "w+b");
@@ -92,32 +90,23 @@ int main(int argc, char *argv[]) {
     if(!destination) {
       fprintf(stderr, "ERROR with opening file: %s", dest_file);
     }
-
-    /* by default, we start with a size of 1000 instructions */
-    inst_size = 1000;
-    inst = malloc(sizeof(Instruction) * inst_size);
     
+    printf("compiling to %s: ", dest_file);
     /* compile line & write to destination file */
     while( (line = read_line(source)) ) {
-      /* check counter and realloac inst if necessary*/
-      if(i == inst_size) {
-        inst_size *= 2;
-        inst = realloc(inst, inst_size);
-      }
-      
-      /* only write lines without a '#' in it (these lines are added
-         by cpp and are ignored) */
-      if(!strchr(line, '#') && !empty_string(line)) {
-        printf("line is: %s\n", line);
-        inst[i] = instruction_from_line(line);
-        printf("writing instruction. opc: %d, op1: %d, op2: %d\n", inst[i].opcode, inst[i].op1, inst[i].op2);
+      /* 
+         only write lines without a '#' in it (these lines are added
+         by cpp and are ignored), also ignore lines with ';' (comments)  
+      */
+      if(!strchr(line, '#') && !strchr(line, ';') && !empty_string(line)) {
+        printf("."); /* some output for the user to see */
+        inst = instruction_from_line(line);
+        fwrite(&inst, sizeof(Instruction), 1, destination);
       }
       free(line);
-      i++; /* counter +1 */
     }
 
-    /* finally, write all instructions to file */
-    fwrite(inst, sizeof(Instruction), sizeof(Instruction), destination);
+    printf("\n");
 
     fclose(source);
     fclose(destination);
