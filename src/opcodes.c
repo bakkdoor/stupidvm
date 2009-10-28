@@ -36,7 +36,6 @@ Opcode opcode_from_string(char *string) {
 
   for(i = 0; i < length; i++) {
     if(strncmp(opcodes[i], string, strlen(string)) == 0) {
-      printf("opcode found is: %d\n", i);
       return (Opcode)i;
     }
   }

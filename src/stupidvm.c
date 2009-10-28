@@ -188,14 +188,14 @@ void run_from_file(char* filename) {
   
   /* alloc instruction buffer memory */
   buffer = (Instruction*) malloc(flength+1);
-  if (!buffer) {
+  if(!buffer) {
     errormsg("Memory error!");
     fclose(file);
     return;
   }
   
   /* read file into buffer */
-  fread(buffer, flength, 1, file);
+  fread(buffer, flength, (flength / sizeof(Instruction)), file);
   fclose(file);
   
   run(buffer);
