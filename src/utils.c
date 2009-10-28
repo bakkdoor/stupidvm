@@ -68,3 +68,15 @@ char* read_line(FILE *f)
 void errormsg(char *message) {
   fprintf(stderr, "ERROR: %s\n", message);
 }
+
+int empty_string(char *string) {
+  int i;
+  for(i = 0; i < strlen(string); i++) {
+    if(isalnum(string[i])) {
+      return 0;
+    }
+  }
+
+  /* no characters or numbers found -> must be only whitespace */
+  return 1;
+}
