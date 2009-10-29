@@ -19,10 +19,10 @@ If you want to try out stupidvm, check out the example programs in the
 examples/ directory. You can compile & run them like this:
 
 $ make
-$ ./svmc examples/procedures.sasm procedures.svm
+$ ./sasm examples/procedures.sasm procedures.svm
 $ ./svm procedures.svm
 
 This will compile both the compiler and the vm via make, compile one
-example file .sasm file (sasm stands for stupid asm) (via svmc, the
-svm compiler) to a .svm binary bytecode file (svm stands for stupidvm)
+example .sasm file (sasm stands for stupid asm) via svmc, the
+svm compiler to a .svm binary bytecode file (svm stands for stupidvm)
 and then run it via the svm executable.
