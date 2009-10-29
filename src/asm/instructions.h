@@ -60,7 +60,6 @@ typedef struct marker_list {
    function definitions start here
 */
 char** instruction_words(char *line);
-Instruction instruction_from_line(char *line);
 InstructionWords* build_instruction_words(FILE *source);
 void compile_instruction_words(InstructionWords *first, FILE *destination);
 Bool is_marker(char *string);
