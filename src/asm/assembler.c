@@ -40,12 +40,8 @@ int main(int argc, char *argv[]) {
     /* Instruction inst; */
     FILE *source, *destination;
     /* pointers to first & last (current) element in list */
-    InstructionWords *first, *current;
+    InstructionWords *words;
     
-    first = malloc(sizeof(InstructionWords));
-    current = first; /* last points to first on init */
-    first->next = NULL;
-
     source = exec_cpp(source_file);
     destination = fopen(dest_file, "w+b");
 
@@ -56,23 +52,24 @@ int main(int argc, char *argv[]) {
     if(!destination) {
       fprintf(stderr, "ERROR with opening file: %s", dest_file);
     }
-    
-    printf("compiling to %s: ", dest_file);
-    printf("\n");
-    
-    /* free all InstructionWords elements */
-    free_list(first);
-
+      
     /* build up InstructionWords list */
-    build_instruction_words(first, source);
-    compile_instruction_words(first, destination);
-    
+    words = build_instruction_words(source);
+
+    /* and now compile them to the destination binary bytecode file */
+    printf("compiling to %s: ", dest_file);
+    compile_instruction_words(words, destination);
+    printf("\n");
+
+    /* free all InstructionWords elements */
+    free_list(words);
+
     fclose(source);
     fclose(destination);
-
+    
     return 0;
   } else {
-    fprintf(stderr, "Error: Please specify an output filename to save bytcode to.\n");
+    fprintf(stderr, "Error: Please specify an output filename to save bytycode to.\n");
     usage();
     return -1;
   }

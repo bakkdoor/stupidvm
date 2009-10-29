@@ -57,10 +57,15 @@ Instruction instruction_from_line(char *line) {
 }
 
 
-void build_instruction_words(InstructionWords *first, FILE *source) {
+InstructionWords* build_instruction_words(FILE *source) {
   char *line;
   char **read_words;
-  InstructionWords *current = first;
+  InstructionWords *first, *current;
+    
+  /* initialize InstructionWords list */
+  first = malloc(sizeof(InstructionWords));
+  current = first; /* last points to first on init */
+  current->next = NULL;
 
   while( (line = read_line(source)) ) {
     /* 
@@ -68,14 +73,11 @@ void build_instruction_words(InstructionWords *first, FILE *source) {
        by cpp and are ignored), also ignore lines with ';' (comments)  
     */
     if(!strchr(line, '#') && !strchr(line, ';') && !empty_string(line)) {
-      printf("."); /* some output for the user to see */
-      /* inst = instruction_from_line(line); */
-      /* fwrite(&inst, sizeof(Instruction), 1, destination); */
-      
       read_words = instruction_words(line);
       current->opcode = read_words[0];
       current->op1 = read_words[1];
-      current->op2 = read_words[2];
+      current->op2 = read_words[2];    
+      
       current->next = malloc(sizeof(InstructionWords));
       current->next->next = NULL;
       /* move pointer forward in list for next loop */
@@ -83,14 +85,137 @@ void build_instruction_words(InstructionWords *first, FILE *source) {
       
       free(read_words);
     }
-    free(line);
   }
+  return first;
 }
 
 void compile_instruction_words(InstructionWords *first, FILE *destination) {
   InstructionWords *current = first;
+  MarkerList *markers = build_marker_list(first);
+  Instruction ins;
+  Marker *found_marker;
+  
+  /* 
+     Loop through all InstructionWords and build Instructions.
+     Also replace all occurances of markers by their adress values.
+     Finally, write each Instruction out to the destination file.
+  */
+  while(current && current->opcode) {
+    /* 
+       if our opcode is a marker, ignore this instance and continue
+       with next
+    */
+    if(!is_marker(current->opcode)) {
+      ins.opcode = opcode_from_string(current->opcode);
+      
+      if(current->op1 && is_identifier(current->op1)) {
+        found_marker = find_marker(current->op1, markers);
+        ins.op1 = (Operand)found_marker->address;
+      } else {
+        ins.op1 = current->op1 ? (Operand)atoi(current->op1) : (Operand)0;
+      }
+      
+      if(current->op2 && is_identifier(current->op2)) {
+        found_marker = find_marker(current->op2, markers);
+        ins.op2 = (Operand)found_marker->address;
+      } else {
+        ins.op2 = current->op2 ? (Operand)atoi(current->op2) : (Operand)0;
+      }
+      
+      printf("."); /* some output for the user to see */
+      
+      /* write instruction to destination */
+      fwrite(&ins, sizeof(Instruction), 1, destination);
+    }
+    
+    current = current->next;
+  }
 }
 
+/* 
+   Returns true, if string looks like marker, e.g.:
+   marker42:
+   Meaning, an identifier, ending with a colon.
+   If string doesn't look like a marker, returns false.
+*/
+Bool is_marker(char *string) {
+  int i;
+  int length = strlen(string);
+  for(i = 0; i < length; i++) {
+    /* all characters up to the last need to be alphanumeric */
+    if(i < (length - 1)) {
+      if(!isalnum(string[i])) {
+        return false;
+      }
+    } else {  /* the last character needs to be a colon */
+      if(string[i] == ':') {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+Bool is_identifier(char *string) {
+  int i;
+  int length = strlen(string);
+  Bool is_ident = true;
+  for(i = 0; i < length; i++) {
+    /* first character needs to be alpha */
+    if(i == 0 && !isalpha(string[i])) {
+        return false;
+    }
+    
+    /* all other characters need to be alphanumeric */
+    if(!isalnum(string[i])) {
+      is_ident = false;
+    }
+  }
+  return is_ident;
+}
+
+MarkerList* build_marker_list(InstructionWords *words) {
+  int instruction_counter = 0;
+  InstructionWords *current_words = words;
+  MarkerList *first_marker, *current_marker;
+  first_marker = malloc(sizeof(MarkerList));
+  current_marker = first_marker;
+
+  if(current_words) {
+    do {
+      if(current_words->opcode) {
+        /* check if opcode looks like a marker */
+        if(is_marker(current_words->opcode)) {
+          current_marker->marker.name = current_words->opcode;
+          current_marker->marker.address = instruction_counter;
+          /* increment pointer */
+          current_marker->next = malloc(sizeof(MarkerList));
+          current_marker = current_marker->next;
+        }
+      }
+
+      /* increment pointer for next loop */
+      current_words = current_words->next;
+      instruction_counter++;
+    } while(current_words->next);
+  }
+
+  return first_marker;
+}
+
+Marker* find_marker(char *name, MarkerList *first) {
+  MarkerList *current = first;
+  if(current) {
+    while(current) {
+      if(strncmp(current->marker.name, name, strlen(current->marker.name) - 1) == 0) {
+        return &current->marker;
+      }
+      current = current->next;
+    }
+  }
+  
+  return NULL;
+}
 
 
 void free_list(InstructionWords *first) {

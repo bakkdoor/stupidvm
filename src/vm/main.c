@@ -31,7 +31,8 @@ int main(int argc, char *argv[])
     return -1;
   }
   
-  print_memory(30);
+  /* for debugging purposes */
+  /* print_memory(30); */
   
   return 0;
 }
