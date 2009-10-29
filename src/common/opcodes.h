@@ -51,9 +51,8 @@ typedef enum {
                       register from second register */
   INC = 0x19,      /* increment (+1) register */
   DEC = 0x1A,      /* decrement (-1) register */
-  JMPBC = 0x1B,
-  SIS = 0x1C,     /* skip next instruction, if status = 1 */
-  HALT = 0x1D      /* halt/stop the machine */
+  SIS = 0x1B,     /* skip next instruction, if status = 1 */
+  HALT = 0x1C      /* halt/stop the machine */
 } Opcode;
 
 typedef unsigned char Byte;
@@ -98,7 +97,6 @@ typedef struct {
 #define ST(reg_addr,reg) instruction(ST, reg_addr, reg)
 #define INC(reg) instruction(INC, reg, 0)
 #define DEC(reg) instruction(DEC, reg, 0)
-#define JMPBC(reg) instruction(JMPBC, reg, 0)
 #define SIS() instruction(SIS, 0, 0)
 #define HALT() instruction(HALT, 0, 0)
 

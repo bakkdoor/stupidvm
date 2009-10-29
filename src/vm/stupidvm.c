@@ -96,11 +96,11 @@ void run(Instruction* programm)
       regs[op1] = regs[op2];
       break;
     case JMP:
-      PC = PC + op1;
+      PC = op1;
       break;
     case JMPC:
       if(status == 1) {
-        PC = PC + op1;
+        PC = op1;
       }
       break;
     case COM:
@@ -151,12 +151,6 @@ void run(Instruction* programm)
       break;
     case DEC:
       regs[op1] = regs[op1] - 1;
-      break;
-    case JMPBC:
-      if(status == 1) {
-        PC = PC - op1;
-        continue;
-      }
       break;
     case SIS:
       if(status == 1) {
