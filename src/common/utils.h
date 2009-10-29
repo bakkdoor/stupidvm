@@ -18,9 +18,13 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+typedef int Bool;
+#define true 1
+#define false 0
+
 unsigned long file_length(FILE *fp);
 char* read_line(FILE *f);
 void errormsg(char *message);
-int empty_string(char *string);
+Bool empty_string(char *string);
 
 #endif

@@ -69,14 +69,14 @@ void errormsg(char *message) {
   fprintf(stderr, "ERROR: %s\n", message);
 }
 
-int empty_string(char *string) {
+Bool empty_string(char *string) {
   int i;
   for(i = 0; i < strlen(string); i++) {
     if(isalnum(string[i])) {
-      return 0;
+      return false;
     }
   }
 
   /* no characters or numbers found -> must be only whitespace */
-  return 1;
+  return true;
 }

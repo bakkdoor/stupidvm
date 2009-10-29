@@ -26,8 +26,6 @@ typedef struct
     int top;
 } Stack;
 
-typedef int Bool;
-
 void push(Stack *S, Operand val);
 Operand pop(Stack *S);
 void init(Stack *S);
