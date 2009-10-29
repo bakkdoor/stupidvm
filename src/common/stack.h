@@ -18,18 +18,20 @@
 #ifndef STACK_H
 #define STACK_H
 
-#define STACK_MAX_SIZE 512
+#define STACK_DEFAULT_SIZE 512
 
 typedef struct
 {
-    Operand v[STACK_MAX_SIZE];
-    int top;
+  Operand *values;
+  int top;
+  int size;
 } Stack;
 
-void push(Stack *S, Operand val);
-Operand pop(Stack *S);
-void init(Stack *S);
-Bool full(Stack *S);
-Bool empty(Stack *S);
+void st_push(Stack *S, Operand val);
+Operand st_pop(Stack *S);
+Stack* st_init(void);
+Stack* st_init_size(int size);
+Bool st_full(Stack *S);
+Bool st_empty(Stack *S);
 
 #endif

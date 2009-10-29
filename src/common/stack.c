@@ -17,34 +17,78 @@
 
 #include "includes.h"
 
-void push(Stack *S, Operand val)
+/**
+   @brief Push a value (Operand) onto a given Stack.
+   
+   @param S The Stack to push the value on.
+   @param val The value to push onto the Stack.
+ */
+void st_push(Stack *S, Operand val)
 {
-  S->v[ S->top ] = val;
+  S->values[ S->top ] = val;
   (S->top)++;
 }
 
-Operand pop(Stack *S)
+/**
+   @brief Pop a value from a Stack and return it.
+   
+   @param The Stack form which to pop a value.
+   @return The popped value.
+ */
+Operand st_pop(Stack *S)
 {
   (S->top)--;
   if(S->top < 0) {
     fprintf(stderr, "\nERROR: pop() on empty Stack!\n");
     exit(-1);
   } else {
-    return (S->v[S->top]);
+    return (S->values[S->top]);
   }
 }
 
-void init(Stack *S)
+/**
+   Initialize a Stack with a size of STACK_DEFAULT_SIZE.
+   @return The created Stack.
+ */
+Stack* st_init(void)
 {
-  S->top = 0;
+  return st_init_size(STACK_DEFAULT_SIZE);
 }
 
-Bool full(Stack *S)
+/**
+   Initialize a stack with a given size.
+   
+   @param size The size for the Stack (the amount of values it can
+   hold).
+   @return The created Stack.
+ */
+Stack* st_init_size(int size) 
 {
-  return (S->top > STACK_MAX_SIZE);
+  Stack *s = malloc(sizeof(Stack));
+  s->values = malloc(sizeof(Operand) * size);
+  s->top = 0;
+  s->size = size;
+  return s;
 }
 
-Bool empty(Stack *S)
+/**
+   Indicates, if a given Stack is full.
+   
+   @param S A Stack.
+   @return true, if S full, false otherwise.
+ */
+Bool st_full(Stack *S)
+{
+  return (S->top > S->size);
+}
+
+/**
+   Indicate, if a given Stack is empty.
+   
+   @param S A Stack.
+   @return true, if S empty, false otherwise.
+ */
+Bool st_empty(Stack *S)
 {
   return (S->top <= 0);
 }

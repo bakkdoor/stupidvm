@@ -54,11 +54,11 @@ void run(Instruction* programm)
   Instruction ins;
   Byte opc;
   Operand op1, op2;
-  Stack stack, callstack;
+  Stack *stack, *callstack;
   int i;
 
-  init(&stack);
-  init(&callstack);
+  stack = st_init();
+  callstack = st_init();
   PC = 0;
   status = 0;
 
@@ -72,10 +72,10 @@ void run(Instruction* programm)
 
     switch(opc) {
     case POP:
-      regs[op1] = pop(&stack);
+      regs[op1] = st_pop(stack);
       break;
     case PUSH:
-      push(&stack, regs[op1]);
+      st_push(stack, regs[op1]);
       break;
     case ADD:
       regs[op1] += regs[op2];
@@ -127,20 +127,20 @@ void run(Instruction* programm)
     case CALL:
       /* save PC, status & registers */
       for(i=0; i<NUM_REGS; i++) {
-        push(&callstack, regs[i]);
+        st_push(callstack, regs[i]);
       }
-      push(&callstack, status);
-      push(&callstack, PC);
+      st_push(callstack, status);
+      st_push(callstack, PC);
       PC = op1;
       continue;
       break;
     case RET:
       /* return from procedure, restoring all old values in opposite
          order */
-      PC = pop(&callstack);
-      status = pop(&callstack);
+      PC = st_pop(callstack);
+      status = st_pop(callstack);
       for(i=(NUM_REGS - 1); i > -1; i--) {
-        regs[i] = pop(&callstack);
+        regs[i] = st_pop(callstack);
       }
       break;
     case PRINT:
