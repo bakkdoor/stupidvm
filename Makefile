@@ -10,6 +10,8 @@ svm: $(common_files) $(vm_files)
 	gcc -Wall -Wstrict-prototypes -ansi -pedantic $(common_files) $(vm_files) -o svm
 sasm: $(common_files) $(asm_files)
 	gcc -Wall -Wstrict-prototypes -pedantic $(common_files) $(asm_files) -o sasm
+doc:
+	doxygen
 clean:
 	rm -f src/*.o
 	rm -f svm
