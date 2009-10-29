@@ -15,5 +15,5 @@
     along with stupidvm.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../includes.h"
+#include "../common/includes.h"
 #include "stupidvm.h"

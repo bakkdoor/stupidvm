@@ -15,4 +15,17 @@
     along with stupidvm.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "../includes.h"
+#ifndef COMMON_INCLUDES_H
+#define COMMON_INCLUDES_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <ctype.h>
+
+#include "utils.h"
+#include "opcodes.h"
+#include "stack.h"
+
+#endif
