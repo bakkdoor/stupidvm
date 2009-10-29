@@ -169,6 +169,7 @@ void run(Instruction* programm)
     }
     PC++;
   }
+
 }
 
 
@@ -202,4 +203,13 @@ void run_from_file(char* filename) {
 
   /* free memory when done */
   free(buffer);
+}
+
+void print_memory(int amount) {
+  int i;
+  puts("=====================");
+  printf("dumping memory:\n");
+  for(i = 0; i < amount; i ++) {
+    printf("memory[%d] is: %d\n", i, memory[i]);
+  }
 }

@@ -31,11 +31,7 @@ int main(int argc, char *argv[])
     return -1;
   }
   
-  /* puts("====================="); */
-  /* printf("dumping memory:\n"); */
-  /* for(PC = 0; PC < amount; PC ++) { */
-  /*   printf("memory[%d] is: %d\n", PC, memory[PC]); */
-  /* } */
-  /**/
+  print_memory(30);
+  
   return 0;
 }

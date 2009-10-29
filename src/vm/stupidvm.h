@@ -29,3 +29,4 @@ typedef int Register;
 /* function definitions */
 void run(Instruction* programm);
 void run_from_file(char* filename);
+void print_memory(int amount);
