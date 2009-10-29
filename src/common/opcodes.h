@@ -18,9 +18,9 @@
 #ifndef OPCODES_H
 #define OPCODES_H
 
-/************************
-   opcode & operand macro declarations
-*************************/
+/***********************************
+ opcode & operand macro declarations
+************************************/
 
 typedef enum {
   POP = 0x00,      /* pop value from stack to register */

@@ -20,6 +20,13 @@
 /* maximum length of characters for an opcode instruction name */
 #define MAX_OPCODE_LENGTH 5
 
+/**
+   @brief Returns an Opcode based on a string representing that opcode
+   (usually coming from a parsed .sasm file).
+   
+   @param string The string representing the opcode.
+   @return The opcode represented by the given string.
+ */
 Opcode opcode_from_string(char *string) {
   int i;
   int length;
