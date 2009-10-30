@@ -149,6 +149,8 @@ void run(Instruction* programm)
     case PRINT:
       printf("%d\n", regs[op1]);
       break;
+    case READ:
+      scanf("%d", &regs[op1]);
     case EQ:
       status = regs[op1] == regs[op2] ? 1 : 0;
       break;

@@ -35,8 +35,9 @@ Opcode opcode_from_string(char *string) {
     "DIV", "ADDI", "MULI", "SUBI", "DIVI",
     "LOAD", "LOADI", "MOV", "JMP", "JMPC",
     "COM", "NEG", "CALL", "RET", "PRINT", 
-    "EQ", "NEQ", "CLR", "SET", "ST",
-    "LD", "INC", "DEC", "SIS", "HALT"
+    "READ", "EQ", "NEQ", "CLR", "SET",
+    "ST", "LD", "INC", "DEC", "SIS", 
+    "HALT"
   };
 
   length = sizeof(opcodes) / MAX_OPCODE_LENGTH;

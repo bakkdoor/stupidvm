@@ -43,17 +43,18 @@ typedef enum {
   CALL = 17,     /* call a function */
   RET = 18,      /* return from function */
   PRINT = 19,    /* print content of register to stdout */
-  EQ = 20,       /* set status = 1 if contents of registers equal */
-  NEQ = 21,      /* opposite of EQ */
-  CLR = 22,      /* clear register (set to zero) */
-  SET = 23,      /* set register to max_val (all bits = 1) */
-  ST = 24,       /* store indirect value to memory address in first
+  READ = 20,     /* read number into register */
+  EQ = 21,       /* set status = 1 if contents of registers equal */
+  NEQ = 22,      /* opposite of EQ */
+  CLR = 23,      /* clear register (set to zero) */
+  SET = 24,      /* set register to max_val (all bits = 1) */
+  ST = 25,       /* store indirect value to memory address in first
                     register from second register */
-  LD = 25,        /* load indirect value into register from memory address */
-  INC = 26,      /* increment (+1) register */
-  DEC = 27,      /* decrement (-1) register */
-  SIS = 28,      /* skip next instruction, if status = 1 */
-  HALT = 29      /* halt/stop the machine */
+  LD = 26,       /* load indirect value into register from memory address */
+  INC = 27,      /* increment (+1) register */
+  DEC = 28,      /* decrement (-1) register */
+  SIS = 29,      /* skip next instruction, if status = 1 */
+  HALT = 30      /* halt/stop the machine */
 } Opcode;
 
 typedef unsigned char Byte;
