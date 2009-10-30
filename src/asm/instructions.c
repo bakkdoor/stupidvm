@@ -135,7 +135,6 @@ void compile_instruction_words(InstructionWords *first, FILE *destination) {
       /* write instruction to destination */
       fwrite(&ins, sizeof(Instruction), 1, destination);
     }
-    
     current = current->next;
   }
 }
@@ -211,7 +210,7 @@ MarkerList* build_marker_list(InstructionWords *words) {
   current_marker = first_marker;
 
   if(current_words) {
-    do {
+    while(current_words){
       if(current_words->opcode) {
         /* check if opcode looks like a marker */
         if(is_marker(current_words->opcode)) {
@@ -220,13 +219,14 @@ MarkerList* build_marker_list(InstructionWords *words) {
           /* increment pointer */
           current_marker->next = malloc(sizeof(MarkerList));
           current_marker = current_marker->next;
+          instruction_counter--;
         }
+        instruction_counter++;
       }
 
       /* increment pointer for next loop */
       current_words = current_words->next;
-      instruction_counter++;
-    } while(current_words->next);
+    }
   }
 
   return first_marker;
