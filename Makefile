@@ -16,3 +16,4 @@ clean:
 	rm -f src/*.o
 	rm -f svm
 	rm -f sasm
+	rm -rf doc/
