@@ -112,10 +112,13 @@ void run(Instruction* programm)
       break;
     case JMP:
       PC = op1;
+      continue;
       break;
     case JMPC:
       if(status == 1) {
         PC = op1;
+        status = 0;
+        continue;
       }
       break;
     case COM:
@@ -175,6 +178,13 @@ void run(Instruction* programm)
     case HALT:
       printf("halting machine.\n");
       return;
+    case LD:
+      regs[op1] = memory[regs[op2]];
+      break;
+    default:
+      printf("ERROR: Unknown Opcode: %d\nAborting!\n", opc);
+      return;
+
     }
     PC++;
   }

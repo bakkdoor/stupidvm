@@ -23,36 +23,37 @@
 ************************************/
 
 typedef enum {
-  POP = 0x00,      /* pop value from stack to register */
-  PUSH = 0x01,     /* push value from register to stack*/
-  ADD = 0x02,      /* add two registers and store in first */
-  MUL = 0x03,      /* multiply two registers and store in first */
-  SUB = 0x04,      /* subtract two registers and store in first */
-  DIV = 0x05,      /* divide two registers and store in first */
-  ADDI = 0x06,     /* add immidiate with register and store in register */
-  MULI = 0x07,     /* multiply immidiate with register and store in register */
-  SUBI = 0x08,     /* subtract immidiate with register and store in register */
-  DIVI = 0x09,     /* divide immidiate with register and store in register */
-  LOAD = 0x0A,     /* load value into register from adress (memory) */
-  LOADI = 0x0B,    /* load immidiate (literal) into register (first arg) */
-  MOV = 0x0C,      /* move (copy) value from second to first register */
-  JMP = 0x0D,      /* jump (branch) to adress (unconditional branch) */
-  JMPC = 0x0E,     /* jump (branch) to adress conditionally (if status = 1) */
-  COM = 0x0F,      /* (binary) complement value in register */
-  NEG = 0x10,      /* negate value in register */
-  CALL = 0x11,     /* call a function */
-  RET = 0x12,      /* return from function */
-  PRINT = 0x13,    /* print content of register to stdout */
-  EQ = 0x14,       /* set status = 1 if contents of registers equal */
-  NEQ = 0x15,      /* opposite of EQ */
-  CLR = 0x16,      /* clear register (set to zero) */
-  SET = 0x17,      /* set register to max_val (all bits = 1) */
-  ST = 0x18,       /* store indirect value to memory address in first
-                      register from second register */
-  INC = 0x19,      /* increment (+1) register */
-  DEC = 0x1A,      /* decrement (-1) register */
-  SIS = 0x1B,     /* skip next instruction, if status = 1 */
-  HALT = 0x1C      /* halt/stop the machine */
+  POP = 0,       /* pop value from stack to register */
+  PUSH = 1,      /* push value from register to stack*/
+  ADD = 2,       /* add two registers and store in first */
+  MUL = 3,       /* multiply two registers and store in first */
+  SUB = 4,       /* subtract two registers and store in first */
+  DIV = 5,       /* divide two registers and store in first */
+  ADDI = 6,      /* add immidiate with register and store in register */
+  MULI = 7,      /* multiply immidiate with register and store in register */
+  SUBI = 8,      /* subtract immidiate with register and store in register */
+  DIVI = 9,      /* divide immidiate with register and store in register */
+  LOAD = 10,     /* load value into register from adress (memory) */
+  LOADI = 11,    /* load immidiate (literal) into register (first arg) */
+  MOV = 12,      /* move (copy) value from second to first register */
+  JMP = 13,      /* jump (branch) to adress (unconditional branch) */
+  JMPC = 14,     /* jump (branch) to adress conditionally (if status = 1) */
+  COM = 15,      /* (binary) complement value in register */
+  NEG = 16,      /* negate value in register */
+  CALL = 17,     /* call a function */
+  RET = 18,      /* return from function */
+  PRINT = 19,    /* print content of register to stdout */
+  EQ = 20,       /* set status = 1 if contents of registers equal */
+  NEQ = 21,      /* opposite of EQ */
+  CLR = 22,      /* clear register (set to zero) */
+  SET = 23,      /* set register to max_val (all bits = 1) */
+  ST = 24,       /* store indirect value to memory address in first
+                    register from second register */
+  LD = 25,        /* load indirect value into register from memory address */
+  INC = 26,      /* increment (+1) register */
+  DEC = 27,      /* decrement (-1) register */
+  SIS = 28,      /* skip next instruction, if status = 1 */
+  HALT = 29      /* halt/stop the machine */
 } Opcode;
 
 typedef unsigned char Byte;
