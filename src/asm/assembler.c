@@ -56,9 +56,11 @@ int main(int argc, char *argv[]) {
     /* check, if opening worked */
     if(!source) {
       fprintf(stderr, "ERROR with opening file: %s", source_filename);
+      return -1;
     }
     if(!destination) {
       fprintf(stderr, "ERROR with opening file: %s", dest_filename);
+      return -1;
     }
       
     /* build up InstructionWords list */
