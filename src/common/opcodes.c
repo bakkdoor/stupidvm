@@ -33,7 +33,11 @@ Opcode opcode_from_string(char *string) {
   length = sizeof(opcodes) / MAX_OPCODE_LENGTH;
 
   for(i = 0; i < length; i++) {
-    if(strncmp(opcodes[i], string, strlen(string)) == 0) {
+    /* 
+       ignore the case, so we allow instrunctions written in lower
+       case as well 
+    */
+    if(strncasecmp(opcodes[i], string, strlen(string)) == 0) {
       return (Opcode)i;
     }
   }
