@@ -163,7 +163,6 @@ void run(Instruction* programm)
       }
       break;
     case HALT:
-      printf("halting machine.\n");
       return;
     case LD:
       regs[op1] = memory[regs[op2]];
