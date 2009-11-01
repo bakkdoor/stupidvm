@@ -27,7 +27,7 @@ Opcode opcode_from_string(char *string) {
     "COM", "NEG", "CALL", "RET", "PRINT", 
     "READ", "EQ", "NEQ", "CLR", "SET",
     "ST", "LD", "INC", "DEC", "SIS", 
-    "HALT"
+    "HALT", "READSTR", "PRINTSTR"
   };
 
   length = sizeof(opcodes) / MAX_OPCODE_LENGTH;

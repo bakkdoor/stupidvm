@@ -54,7 +54,9 @@ typedef enum {
   INC = 27,      /* increment (+1) register */
   DEC = 28,      /* decrement (-1) register */
   SIS = 29,      /* skip next instruction, if status = 1 */
-  HALT = 30      /* halt/stop the machine */
+  HALT = 30,     /* halt/stop the machine */
+  READSTR = 31,
+  PRINTSTR = 32 
 } Opcode;
 
 typedef unsigned char Byte;
@@ -72,7 +74,7 @@ typedef struct {
 /* function definitions */
 
 /* maximum length of characters for an opcode instruction name */
-#define MAX_OPCODE_LENGTH 5
+#define MAX_OPCODE_LENGTH 8
 
 /**
    @brief Returns an Opcode based on a string representing that opcode

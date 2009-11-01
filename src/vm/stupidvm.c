@@ -41,6 +41,7 @@ void run(Instruction* programm)
   Operand op1, op2;
   Stack *stack, *callstack;
   int i;
+  char *string;
 
   stack = st_init();
   callstack = st_init();
@@ -167,10 +168,17 @@ void run(Instruction* programm)
     case LD:
       regs[op1] = memory[regs[op2]];
       break;
+    case READSTR:
+      string = read_line(stdin);
+      regs[op1] = string;
+      break;
+    case PRINTSTR:
+      string = regs[op1];
+      printf("%s\n", string);
+      break;
     default:
       printf("ERROR: Unknown Opcode: %d\nAborting!\n", opc);
       return;
-
     }
     PC++;
   }

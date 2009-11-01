@@ -1,0 +1,6 @@
+;; simple string in & output example
+#define tmp 0
+main:
+  readstr tmp
+  printstr tmp
+  halt
