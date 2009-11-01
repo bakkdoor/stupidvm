@@ -34,21 +34,6 @@ Register status;
 int PC;
 Register* memory;
 
-/**
-   @brief Starts the main evaluation process of the vm.
-   
-   Basically, we start an infinite loop and run until we hit the HALT
-   instruction, which stops the virtual machine. This means, that the
-   programm itself is responsible for telling the VM when to
-   stop. This might change in the future though, as I'm still unsure,
-   if this is a good idea...
-   We then check the opcode of each instruction within the loop and
-   execute the appropriate code for that opcode. Pretty simple &
-   stupid if you ask me ;)
-   
-   @param programm An array of Instruction values representing the
-   programm to be executed.
- */
 void run(Instruction* programm)
 {
   Instruction ins;
@@ -192,14 +177,6 @@ void run(Instruction* programm)
   }
 }
 
-/**
-   @brief Execute a programm from a given bytecode .svm file.
-   
-   Open the file, read it into memory and run it via run().
-   That's basically it.
-   
-   @param filename Filename of the bytecode .svm file to be executed.
- */
 void run_from_file(char* filename) {
   Instruction* buffer;
   FILE *file;
@@ -232,11 +209,6 @@ void run_from_file(char* filename) {
   free(buffer);
 }
 
-/**
-   @brief Prints out the first given amount of memory slots in the VM.
-
-   @param amount The amount of memory slots to print out.
- */
 void print_memory(int amount) {
   int i;
   puts("=====================");

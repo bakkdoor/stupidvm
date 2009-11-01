@@ -69,40 +69,18 @@ typedef struct {
   Operand op2;
 } Instruction;
 
-/* short-hand macro for creating instructions */
-#define instruction(name,a,b) {name,a,b}
-
-#define POP(reg) instruction(POP, reg, 0)
-#define PUSH(reg) instruction(PUSH, reg, 0)
-#define ADD(reg,reg2) instruction(ADD, reg, reg2)
-#define SUB(reg,reg2) instruction(SUB, reg, reg2)
-#define MUL(reg,reg2) instruction(MUL, reg, reg2)
-#define DIV(reg,reg2) instruction(DIV, reg, reg2)
-#define ADDI(reg,reg2) instruction(ADDI, reg, reg2)
-#define SUBI(reg,reg2) instruction(SUBI, reg, reg2)
-#define MULI(reg,reg2) instruction(MULI, reg, reg2)
-#define DIVI(reg,reg2) instruction(DIVI, reg, reg2)
-#define LOAD(reg,addr) instruction(LOAD, reg, addr)
-#define LOADI(reg,val) instruction(LOADI, reg, val)
-#define MOV(reg_dest,reg_src) instruction(MOV, reg_dest, reg_src)
-#define JMP(addr) instruction(JMP, addr, 0)
-#define JMPC(addr) instruction(JMPC, addr, 0)
-#define COM(reg) instruction(COM, reg, 0)
-#define NEG(reg) instruction(NEG, reg, 0)
-#define CALL(func) instruction(CALL, func, 0)
-#define RET() instruction(RET, 0, 0)
-#define PRINT(reg) instruction(PRINT, reg, 0)
-#define EQ(reg,reg2) instruction(EQ, reg, reg2)
-#define NEQ(reg,reg2) instruction(NEQ, reg, reg2)
-#define CLR(reg) instruction(CLR, reg, 0)
-#define SET(reg) instruction(SET, reg, 0)
-#define ST(reg_addr,reg) instruction(ST, reg_addr, reg)
-#define INC(reg) instruction(INC, reg, 0)
-#define DEC(reg) instruction(DEC, reg, 0)
-#define SIS() instruction(SIS, 0, 0)
-#define HALT() instruction(HALT, 0, 0)
-
 /* function definitions */
+
+/* maximum length of characters for an opcode instruction name */
+#define MAX_OPCODE_LENGTH 5
+
+/**
+   @brief Returns an Opcode based on a string representing that opcode
+   (usually coming from a parsed .sasm file).
+   
+   @param string The string representing the opcode.
+   @return The opcode represented by the given string.
+ */
 Opcode opcode_from_string(char *string);
 
 #endif

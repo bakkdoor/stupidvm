@@ -17,17 +17,6 @@
 
 #include "includes.h"
 
-/**
-   returns 3-element array of string containing the values of:
-   - opcode (instruction command name)
-   - operand 1 (or 0, if not given)
-   - operand 2 (or 0, if not given)
-   
-   @param line Line of characters in a file to be parsed.
-
-   @return Array of strings that map to either instruction names,
-   literal values or markers.
- */
 char** instruction_words(char *line) {
   char **words;
   char *pch;
@@ -50,14 +39,6 @@ char** instruction_words(char *line) {
   return words;
 }
 
-/**
-   @brief Returns a list of InstructionWords by parsing a given .sasm
-   file.
-   
-   @param source The source .sasm FILE handle to be parsed.
-   @return List of InstructionWords containing the parsed words &
-   identifiers.
- */
 InstructionWords* build_instruction_words(FILE *source) {
   char *line;
   char **read_words;
@@ -90,13 +71,6 @@ InstructionWords* build_instruction_words(FILE *source) {
   return first;
 }
 
-/**
-   @brief Compiles a list of InstructionWords to a given file.
-   
-   @param first Pointer to first element of InstructionWords list.
-   @param destination FILE handle to destination file to compile
-   binary bytecode to.
- */
 void compile_instruction_words(InstructionWords *first, FILE *destination) {
   InstructionWords *current = first;
   MarkerList *markers = build_marker_list(first);
@@ -139,15 +113,6 @@ void compile_instruction_words(InstructionWords *first, FILE *destination) {
   }
 }
 
-/**
-   @brief Returns true, if string looks like marker, e.g.: "marker42:"
-   
-   Meaning, an identifier, ending with a colon.
-   If string doesn't look like a marker, returns false.
-
-   @param string The string to check, if it looks like a marker.
-   @return true, if it looks like a marker, false otherwise.
- */
 Bool is_marker(char *string) {
   int i;
   int length = strlen(string);
@@ -166,13 +131,6 @@ Bool is_marker(char *string) {
   return false;
 }
 
-/**
-   @brief Indicates, if a string is an identifier (opposed to a
-   literal value).
-   
-   @param string The string to be checked.
-   @return true, if string is an identifier, false otherwise.
- */
 Bool is_identifier(char *string) {
   int i;
   int length = strlen(string);
@@ -191,17 +149,6 @@ Bool is_identifier(char *string) {
   return is_ident;
 }
 
-/**
-   @brief Creates a List of Markers (MarkerList) based upon a list of
-   InstructionWords.
-   
-   Basically, we loop through all InstructionWords in words and look
-   for markers. If we find one, we add it to the MarkerList and return
-   that in the end.
-   
-   @param words The list of InstructionWords to be processed.
-   @return A MarkerList containing all markers found in words.
- */
 MarkerList* build_marker_list(InstructionWords *words) {
   int instruction_counter = 0;
   InstructionWords *current_words = words;
@@ -232,13 +179,6 @@ MarkerList* build_marker_list(InstructionWords *words) {
   return first_marker;
 }
 
-/**
-   @brief Look for a marker with a given name within a MarkerList.
-   
-   @param name The name of the marker we're looking for.
-   @param first Pointer to the first element in the MarkerList.
-   @return Pointer to the Marker, if we found one, NULL otherwise.
- */
 Marker* find_marker(char *name, MarkerList *first) {
   MarkerList *current = first;
   if(current) {
@@ -253,11 +193,6 @@ Marker* find_marker(char *name, MarkerList *first) {
   return NULL;
 }
 
-/**
-   @brief free() all elements in a given list of InstructionWords.
-   
-   @param first Pointer to the first element in list of InstructionWords.
- */
 void free_list(InstructionWords *first) {
   InstructionWords *last = first;
   InstructionWords *current = first;
