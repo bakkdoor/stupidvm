@@ -34,7 +34,7 @@ Register status;
 int PC;
 Register* memory;
 
-void run(Instruction* programm)
+void run(Instruction* programm, unsigned long n_instructions)
 {
   Instruction ins;
   Byte opc;
@@ -50,7 +50,7 @@ void run(Instruction* programm)
 
   memory = malloc(MAX_VM_MEMORY * sizeof(Register));
 
-  while(1) { 
+  while(PC < n_instructions) { 
     ins = programm[PC];
     opc = ins.opcode;
     op1 = ins.op1;
@@ -188,6 +188,7 @@ void run_from_file(char* filename) {
   Instruction* buffer;
   FILE *file;
   unsigned long flength;
+  unsigned long n_instrunctions;
   
   file = fopen(filename, "rb");
   if (!file) {
@@ -206,11 +207,12 @@ void run_from_file(char* filename) {
     return;
   }
   
+  n_instrunctions = flength / sizeof(Instruction);
   /* read file into buffer */
-  fread(buffer, flength, (flength / sizeof(Instruction)), file);
+  fread(buffer, flength, n_instrunctions, file);
   fclose(file);
   
-  run(buffer);
+  run(buffer, n_instrunctions);
 
   /* free memory when done */
   free(buffer);

@@ -3,4 +3,3 @@
 main:
   readstr tmp
   printstr tmp
-  halt

@@ -43,8 +43,10 @@ typedef int Register;
    
    @param programm An array of Instruction values representing the
    programm to be executed.
+   @param n_instructions Amount of instrunctions to be processed
+   (usually the amount of instrunctions in programm)
  */
-void run(Instruction* programm);
+void run(Instruction* programm, unsigned long n_instructions);
 
 /**
    @brief Execute a programm from a given bytecode .svm file.
