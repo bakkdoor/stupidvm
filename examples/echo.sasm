@@ -1,5 +1,5 @@
 ;; simple string in & output example
 #define tmp 0
-main:
+echo:
   readstr tmp
   printstr tmp
