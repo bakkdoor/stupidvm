@@ -1,5 +1,5 @@
 cc = gcc
-cc_flags = -Wall -Wstrict-prototypes -pedantic
+cc_flags = -Wall -Wstrict-prototypes -pedantic -g
 
 common_dir = src/common
 vm_dir = src/vm
