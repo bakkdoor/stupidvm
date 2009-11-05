@@ -1,0 +1,11 @@
+-----------------------
+Todo list for stupidvm:
+-----------------------
+
+- add more support for strings
+  - string literals & constants
+- support for calling c-functions
+  - stdio (file read/write etc)
+- dynamic memory allocations
+- garbage collector?
+- nicer support for calling functions (with params & return values etc)
